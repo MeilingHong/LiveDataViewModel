@@ -2,11 +2,20 @@ package com.meiling.component.utils.string;
 
 import android.text.TextUtils;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * @Author marisareimu
  * @time 2021-05-19 15:33
  */
 public class CommonStringUtils {
+    /**
+     * 1、检查身份证
+     * 2、检查网络地址
+     */
+
+
     /**
      * ********************************************************************************************************************************************
      * 校验身份证号码是否符合规范
@@ -88,5 +97,46 @@ public class CommonStringUtils {
         return false;
     }
 
+    /**
+     * ***************************************************************************************************************************************
+     * 检查检查是否是手机
+     */
 
+    public static boolean isMobilePhone(CharSequence string) {
+        if (TextUtils.isEmpty(string)) {
+            return false;
+        }
+        String regEx = "^1\\d{10}$";
+        Pattern pattern = Pattern.compile(regEx);
+        Matcher matcher = pattern.matcher(string);
+        return matcher.matches();
+    }
+
+    /**
+     * ***************************************************************************************************************************************
+     * 检查检查是否是邮箱
+     */
+
+    public static boolean isEmail(CharSequence string) {
+        if (TextUtils.isEmpty(string)) {
+            return false;
+        }
+//        String regEx = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{1,}$";
+        String regEx = "^([a-z0-9A-Z]+[-|\\.]?)+@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{1,}$";
+        Pattern pattern = Pattern.compile(regEx);
+        Matcher matcher = pattern.matcher(string);
+        return matcher.matches();
+    }
+
+    /**
+     * ***************************************************************************************************************************************
+     * 检查检查是否是都是中文字符
+     */
+
+    public static boolean isChinese(String paramValue) {
+        String str = "";
+        String regex = "([\u4e00-\u9fa5]+)";
+        Matcher matcher = Pattern.compile(regex).matcher(paramValue);
+        return matcher.matches();
+    }
 }
