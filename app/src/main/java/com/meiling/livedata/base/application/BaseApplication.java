@@ -1,6 +1,9 @@
 package com.meiling.livedata.base.application;
 
 
+import com.meiling.component.utils.log.Mlog;
+import com.meiling.livedata.BuildConfig;
+
 import androidx.multidex.MultiDexApplication;
 
 /**
@@ -17,7 +20,7 @@ public class BaseApplication extends MultiDexApplication {
     }
 
     private void initLog() {
-
+        Mlog.setConfig(BuildConfig.LOG_DEBUG,"_AndroidRuntime");
     }
 
     private void initComponent() {

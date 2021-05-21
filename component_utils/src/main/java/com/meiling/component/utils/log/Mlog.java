@@ -11,6 +11,12 @@ public class Mlog {
     private static final int LENGTH_LIMIT = 3000;
     private static String TAG = "_AndroidRuntime";//方面能够同时查看到异常信息
 
+    /**
+     * 让日志开关和打印的Tag可配置
+     *
+     * @param debug
+     * @param customTag
+     */
     public static void setConfig(boolean debug, String customTag) {
         Mlog.DEBUG = debug;// 指定是否是Debug模式
         Mlog.TAG = customTag;// 指定Log显示的Tag
