@@ -9,13 +9,18 @@
         <!--控制各个控件被选中时的颜色-->
         <item name="colorAccent">@color/colorAccent</item>
         <!--页面背景色-->
-        <item name="android:windowBackground">@color/windowBackground</item>
+<!--        <item name="android:windowBackground">@color/windowBackground</item>-->
         <!--底部导航栏颜色-->
         <item name="android:navigationBarColor">@color/navigationBarColor</item>
         <!--ToolBar上的Title颜色-->
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <!--各个控制控件的默认颜色-->
         <item name="android:colorControlNormal">@color/colorControlNormal</item>
+        <!--    直接使用图片，则图片将会铺满全屏    -->
+        <!--        <item name="android:windowBackground">@mipmap/ic_launcher</item>-->
+
+        <!-- todo 这个背景将针对全部页面生效，如果布局本身没有设置背景色时【默认透明】，将会显示出这个指定的背景图 -->
+        <item name="android:windowBackground">@drawable/launcher_bg</item>
     </style>
 
 </resources>

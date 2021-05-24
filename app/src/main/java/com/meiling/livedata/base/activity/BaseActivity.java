@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.os.MessageQueue;
 
+import com.meiling.component.utils.log.Mlog;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -43,12 +45,12 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     protected abstract void afterDestroy();
 
     /**
-     * 有必要在onCreate方法中进行实现的
+     * todo 有必要在onCreate方法中进行实现的
      */
     protected abstract void initViewAfterOnCreate();
 
     /**
-     *
+     *  todo 当全部生命流程执行完后回调该方法，用来保证需要延迟初始化或者调用的东西可以在这里进行调用
      */
     protected abstract void lazyloadCallback();
 
@@ -64,6 +66,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
             @Override
             public boolean queueIdle() {
+                Mlog.d("lazyloadCallback---" + getClass().getName());
                 lazyloadCallback();
                 return false;
             }
@@ -80,31 +83,37 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
+        Mlog.d("onWindowFocusChanged---" + hasFocus + "---" + getClass().getName());
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        Mlog.d("onStart---"  + getClass().getName());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        Mlog.d("onResume---"  + getClass().getName());
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        Mlog.d("onPause---"  + getClass().getName());
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        Mlog.d("onStop---"  + getClass().getName());
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Mlog.d("onDestroy---"  + getClass().getName());
         afterDestroy();
         if (layoutBinding != null) layoutBinding.unbind();// todo 当页面销毁时，对databinding对象进行解绑操作
         layoutBinding = null;
