@@ -1,4 +1,4 @@
-package com.meiling.livedata.app;
+package com.meiling.livedata.app.activity;
 
 import android.content.Intent;
 import android.os.Handler;
@@ -7,9 +7,13 @@ import android.os.Message;
 import android.view.View;
 import android.widget.Toast;
 
+import com.meiling.component.utils.log.Mlog;
 import com.meiling.livedata.R;
+import com.meiling.livedata.app.dialog.loading.LoadingDialog;
 import com.meiling.livedata.base.activity.ActivityConfig;
 import com.meiling.livedata.base.activity.BaseActivity;
+import com.meiling.livedata.base.dialog.callback.IDismissCallback;
+import com.meiling.livedata.base.dialog.callback.IShowCallback;
 import com.meiling.livedata.databinding.ActivityDatabindMainBinding;
 
 import androidx.annotation.NonNull;
@@ -56,7 +60,7 @@ public class MainActivity extends BaseActivity<ActivityDatabindMainBinding> {
         layoutBinding.back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                showLoadingDialog();
             }
         });
         layoutBinding.click.setOnClickListener(new View.OnClickListener() {
@@ -70,6 +74,32 @@ public class MainActivity extends BaseActivity<ActivityDatabindMainBinding> {
     @Override
     protected void lazyloadCallback() {
 
+    }
+
+    /*
+     **************************************************************************************
+     */
+    private LoadingDialog loadingDialog;
+
+    private void showLoadingDialog() {
+        if (loadingDialog == null) {
+            loadingDialog = new LoadingDialog();
+            loadingDialog.setDialogConfig(getApplicationContext(), new IShowCallback() {
+                @Override
+                public void afterDialogShow() {
+                    Mlog.d("afterDialogShow---");
+                }
+            }, new IDismissCallback() {
+                @Override
+                public void afterDialogDismiss() {
+                    Mlog.d("afterDialogDismiss---");
+                    if (loadingDialog != null) {
+                        loadingDialog = null;
+                    }
+                }
+            });
+            loadingDialog.show(getSupportFragmentManager(), "loading", 2000);
+        }
     }
 
     /*

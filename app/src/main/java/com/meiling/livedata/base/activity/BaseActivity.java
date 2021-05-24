@@ -179,10 +179,10 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     private void setWindowBackground() {
 //        getWindow().getDecorView().setBackground(getResources().getDrawable(R.drawable.launcher_bg));
         /*
-2021-05-24 15:04:15.706 1517-1831/? E/InputDispatcher: channel 'dc25868 com.meiling.livedata/com.meiling.livedata.app.MainActivity (server)' ~ Channel is unrecoverably broken and will be disposed!
+2021-05-24 15:04:15.706 1517-1831/? E/InputDispatcher: channel 'dc25868 com.meiling.livedata/com.meiling.livedata.app.activity.MainActivity (server)' ~ Channel is unrecoverably broken and will be disposed!
 2021-05-24 15:32:46.486 19707-19707/com.meiling.livedata E/AndroidRuntime: FATAL EXCEPTION: main
     Process: com.meiling.livedata, PID: 19707
-    java.lang.RuntimeException: Unable to start activity ComponentInfo{com.meiling.livedata/com.meiling.livedata.app.MainActivity}: android.content.res.Resources$NotFoundException: Drawable com.meiling.livedata:drawable/launcher_bg with resource ID #0x7f060063
+    java.lang.RuntimeException: Unable to start activity ComponentInfo{com.meiling.livedata/com.meiling.livedata.app.activity.MainActivity}: android.content.res.Resources$NotFoundException: Drawable com.meiling.livedata:drawable/launcher_bg with resource ID #0x7f060063
         at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:3156)
         at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:3291)
         at android.app.servertransaction.LaunchActivityItem.execute(LaunchActivityItem.java:78)

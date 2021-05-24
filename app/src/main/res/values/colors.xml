@@ -119,6 +119,8 @@
     <color name="alpha_percent_100">#ff000000</color>
 
     <!--  常用的几个颜色 *******************************************************************  -->
+
+    <color name="color_transparent">#00ffffff</color>
     <color name="color_white">#ffffff</color>
     <color name="color_black">#000000</color>
     

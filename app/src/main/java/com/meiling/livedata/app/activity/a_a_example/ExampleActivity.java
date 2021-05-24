@@ -1,4 +1,4 @@
-package com.meiling.livedata.app.a_a_example;
+package com.meiling.livedata.app.activity.a_a_example;
 
 import android.content.Intent;
 
