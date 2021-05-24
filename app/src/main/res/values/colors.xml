@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--Appbar背景色-->
     <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
+    <!--状态栏颜色-->
+    <color name="colorPrimaryDark">#ff7935</color>
+    <!--控制各个控件被选中时的颜色-->
     <color name="colorAccent">#03DAC5</color>
-
+    <!--页面背景色-->
     <color name="windowBackground">#3296fa</color>
+    <!--底部导航栏颜色-->
     <color name="navigationBarColor">#3296fa</color>
+    <!--ToolBar上的Title颜色-->
     <color name="textColorPrimary">#3296fa</color>
+    <!--各个控制控件的默认颜色-->
     <color name="colorControlNormal">#3296fa</color>
 
+    <!--  透明度颜色 *******************************************************************  -->
     <color name="alpha_percent_00">#00000000</color>
     <color name="alpha_percent_01">#03000000</color>
     <color name="alpha_percent_02">#05000000</color>
@@ -111,22 +118,24 @@
     <color name="alpha_percent_99">#fc000000</color>
     <color name="alpha_percent_100">#ff000000</color>
 
-    <color name="bg_color_white">#ffffff</color>
-    <color name="bg_color_black">#000000</color>
-    <color name="bg_color_black_11">#111111</color>
-    <color name="bg_color_black_22">#222222</color>
-    <color name="bg_color_black_33">#333333</color>
-    <color name="bg_color_black_44">#222222</color>
-    <color name="bg_color_black_55">#555555</color>
-    <color name="bg_color_black_66">#666666</color>
-    <color name="bg_color_black_77">#777777</color>
-    <color name="bg_color_black_88">#888888</color>
-    <color name="bg_color_black_99">#999999</color>
-    <color name="bg_color_black_aa">#aaaaaa</color>
-    <color name="bg_color_black_bb">#bbbbbb</color>
-    <color name="bg_color_black_cc">#cccccc</color>
-    <color name="bg_color_black_dd">#dddddd</color>
-    <color name="bg_color_black_ee">#eeeeee</color>
+    <!--  常用的几个颜色 *******************************************************************  -->
+    <color name="color_white">#ffffff</color>
+    <color name="color_black">#000000</color>
+    
+    <color name="color_black_11">#111111</color>
+    <color name="color_black_22">#222222</color>
+    <color name="color_black_33">#333333</color>
+    <color name="color_black_44">#222222</color>
+    <color name="color_black_55">#555555</color>
+    <color name="color_black_66">#666666</color>
+    <color name="color_black_77">#777777</color>
+    <color name="color_black_88">#888888</color>
+    <color name="color_black_99">#999999</color>
+    <color name="color_black_aa">#aaaaaa</color>
+    <color name="color_black_bb">#bbbbbb</color>
+    <color name="color_black_cc">#cccccc</color>
+    <color name="color_black_dd">#dddddd</color>
+    <color name="color_black_ee">#eeeeee</color>
 
 
 </resources>
