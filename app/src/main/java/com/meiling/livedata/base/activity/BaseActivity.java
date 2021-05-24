@@ -98,6 +98,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         setFullScrennAndStatusBar();
         setNavigatorBarColor();
         setKeepScreenOn();
+        setWindowBackground();
     }
 
     /*
@@ -168,9 +169,74 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     }
 
     private void setNavigatorBarColor() {
+        // todo 当设置了windowBackground 时，如果导航栏颜色设置了透明度，将会看到设置的windowBackground底部的一截
         if (activityConfig != null && activityConfig.getNavigatorBarColor() != -1) {
             setActivityNavigationBarColor(activityConfig.getNavigatorBarColor());
         }
+    }
+
+    // 总是就是你用这个属性的话 ，在弹窗 Dialog 的时候会乱 。会影响 layout 的逻辑
+    private void setWindowBackground() {
+//        getWindow().getDecorView().setBackground(getResources().getDrawable(R.drawable.launcher_bg));
+        /*
+2021-05-24 15:04:15.706 1517-1831/? E/InputDispatcher: channel 'dc25868 com.meiling.livedata/com.meiling.livedata.app.MainActivity (server)' ~ Channel is unrecoverably broken and will be disposed!
+2021-05-24 15:32:46.486 19707-19707/com.meiling.livedata E/AndroidRuntime: FATAL EXCEPTION: main
+    Process: com.meiling.livedata, PID: 19707
+    java.lang.RuntimeException: Unable to start activity ComponentInfo{com.meiling.livedata/com.meiling.livedata.app.MainActivity}: android.content.res.Resources$NotFoundException: Drawable com.meiling.livedata:drawable/launcher_bg with resource ID #0x7f060063
+        at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:3156)
+        at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:3291)
+        at android.app.servertransaction.LaunchActivityItem.execute(LaunchActivityItem.java:78)
+        at android.app.servertransaction.TransactionExecutor.executeCallbacks(TransactionExecutor.java:108)
+        at android.app.servertransaction.TransactionExecutor.execute(TransactionExecutor.java:68)
+        at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2004)
+        at android.os.Handler.dispatchMessage(Handler.java:106)
+        at android.os.Looper.loop(Looper.java:224)
+        at android.app.ActivityThread.main(ActivityThread.java:7100)
+        at java.lang.reflect.Method.invoke(Native Method)
+        at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:604)
+        at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:876)
+     Caused by: android.content.res.Resources$NotFoundException: Drawable com.meiling.livedata:drawable/launcher_bg with resource ID #0x7f060063
+     Caused by: android.content.res.Resources$NotFoundException: File res/drawable/launcher_bg.xml from drawable resource ID #0x7f060063
+        at android.content.res.ResourcesImpl.loadDrawableForCookie(ResourcesImpl.java:999)
+        at android.content.res.ResourcesImpl.loadDrawable(ResourcesImpl.java:753)
+        at android.content.res.Resources.getDrawableForDensity(Resources.java:949)
+        at android.content.res.Resources.getDrawable(Resources.java:888)
+        at android.content.Context.getDrawable(Context.java:635)
+        at android.view.Window.setBackgroundDrawableResource(Window.java:1587)
+        at com.meiling.livedata.base.activity.BaseActivity.setWindowBackground(BaseActivity.java:183)
+        at com.meiling.livedata.base.activity.BaseActivity.applyConfiguration(BaseActivity.java:103)
+        at com.meiling.livedata.base.activity.BaseActivity.onCreate(BaseActivity.java:76)
+        at android.app.Activity.performCreate(Activity.java:7279)
+        at android.app.Activity.performCreate(Activity.java:7270)
+        at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1275)
+        at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:3136)
+        at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:3291)
+        at android.app.servertransaction.LaunchActivityItem.execute(LaunchActivityItem.java:78)
+        at android.app.servertransaction.TransactionExecutor.executeCallbacks(TransactionExecutor.java:108)
+        at android.app.servertransaction.TransactionExecutor.execute(TransactionExecutor.java:68)
+        at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2004)
+        at android.os.Handler.dispatchMessage(Handler.java:106)
+        at android.os.Looper.loop(Looper.java:224)
+        at android.app.ActivityThread.main(ActivityThread.java:7100)
+        at java.lang.reflect.Method.invoke(Native Method)
+        at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:604)
+        at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:876)
+     Caused by: org.xmlpull.v1.XmlPullParserException: Binary XML file line #12: <bitmap> requires a valid 'src' attribute
+        at android.graphics.drawable.BitmapDrawable.updateStateFromTypedArray(BitmapDrawable.java:870)
+        at android.graphics.drawable.BitmapDrawable.inflate(BitmapDrawable.java:774)
+        at android.graphics.drawable.DrawableInflater.inflateFromXmlForDensity(DrawableInflater.java:142)
+        at android.graphics.drawable.Drawable.createFromXmlInnerForDensity(Drawable.java:1332)
+        at android.graphics.drawable.Drawable.createFromXmlInner(Drawable.java:1321)
+        at android.graphics.drawable.LayerDrawable.inflateLayers(LayerDrawable.java:279)
+        at android.graphics.drawable.LayerDrawable.inflate(LayerDrawable.java:194)
+2021-05-24 15:32:46.487 19707-19707/com.meiling.livedata E/AndroidRuntime:     at android.graphics.drawable.DrawableInflater.inflateFromXmlForDensity(DrawableInflater.java:142)
+        at android.graphics.drawable.Drawable.createFromXmlInnerForDensity(Drawable.java:1332)
+        at android.graphics.drawable.Drawable.createFromXmlForDensity(Drawable.java:1291)
+        at android.content.res.ResourcesImpl.loadDrawableForCookie(ResourcesImpl.java:964)
+        	... 23 more
+
+         */
+//        getWindow().setBackgroundDrawableResource(R.drawable.launcher_bg);// 这种方式还是不合适
     }
 
     /*
