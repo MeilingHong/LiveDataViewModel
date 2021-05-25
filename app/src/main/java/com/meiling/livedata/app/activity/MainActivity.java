@@ -121,7 +121,6 @@ public class MainActivity extends BaseActivity<ActivityDatabindMainBinding> {
             });
             loadingPopupWindow.showAsDropDown(layoutBinding.click);
 
-
             /*
              *
              */
