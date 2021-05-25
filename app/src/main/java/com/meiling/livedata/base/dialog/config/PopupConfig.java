@@ -7,6 +7,8 @@ import android.view.WindowManager;
 import com.meiling.livedata.base.dialog.callback.IDismissCallback;
 import com.meiling.livedata.base.dialog.callback.IShowCallback;
 
+import androidx.annotation.ColorRes;
+
 
 public class PopupConfig {
     /**
@@ -16,7 +18,8 @@ public class PopupConfig {
     /**
      * 配置dialog的显示位置，默认显示位置在下面
      */
-    private int showPositionInScreen = Gravity.BOTTOM;
+    @ColorRes
+    private int backgroundDrawableColor = -1;
     /**
      * 对话框内容布局
      */
@@ -25,6 +28,10 @@ public class PopupConfig {
      * 默认的输入模式
      */
     private int inputMode = WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN;
+    /**
+     * 是否可以获取焦点
+     */
+    private boolean focusable = false;
     /**
      * 是否可触摸（false 时，触摸事件将传递到下面的View进行处理）
      */
@@ -73,12 +80,12 @@ public class PopupConfig {
         this.styleId = styleId;
     }
 
-    public int getShowPositionInScreen() {
-        return showPositionInScreen;
+    public int getBackgroundDrawableColor() {
+        return backgroundDrawableColor;
     }
 
-    public void setShowPositionInScreen(int showPositionInScreen) {
-        this.showPositionInScreen = showPositionInScreen;
+    public void setBackgroundDrawableColor(int backgroundDrawableColor) {
+        this.backgroundDrawableColor = backgroundDrawableColor;
     }
 
     public int getContentViewLayout() {
@@ -95,6 +102,14 @@ public class PopupConfig {
 
     public void setInputMode(int inputMode) {
         this.inputMode = inputMode;
+    }
+
+    public boolean isFocusable() {
+        return focusable;
+    }
+
+    public void setFocusable(boolean focusable) {
+        this.focusable = focusable;
     }
 
     public boolean isTouchable() {
@@ -171,12 +186,13 @@ public class PopupConfig {
 
     public static class Builder {
         private int styleId = 0;
-        private int showPositionInScreen = Gravity.BOTTOM;
+        private int backgroundDrawableColor = Gravity.BOTTOM;
         private int contentViewLayout = 0;
         private int inputMode = WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN;
 
-        private boolean cancelable = false;
-        private boolean cancelOutside = false;
+        private boolean focusable = false;
+        private boolean touchable = false;
+        private boolean touchOutside = false;
         private boolean cancelBackKey = true;
 
         private int dialogWidth = 0;
@@ -196,8 +212,8 @@ public class PopupConfig {
             return this;
         }
 
-        public Builder setDialogShowPosition(int showPositionInScreen) {
-            this.showPositionInScreen = showPositionInScreen;
+        public Builder setBackgroundDrawableColor(int backgroundDrawableColor) {
+            this.backgroundDrawableColor = backgroundDrawableColor;
             return this;
         }
 
@@ -211,12 +227,17 @@ public class PopupConfig {
             return this;
         }
 
-        public Builder setCancelable(boolean cancelable) {
-            this.cancelable = cancelable;
+        public Builder setFocusable(boolean focusable) {
+            this.focusable = focusable;
             return this;
         }
-        public Builder setCancelOutside(boolean cancelOutside) {
-            this.cancelOutside = cancelOutside;
+
+        public Builder setTouchable(boolean touchable) {
+            this.touchable = touchable;
+            return this;
+        }
+        public Builder setTouchOutside(boolean touchOutside) {
+            this.touchOutside = touchOutside;
             return this;
         }
 
@@ -266,8 +287,8 @@ public class PopupConfig {
             if(styleId!=0){
                 dialogConfig.setStyleId(styleId);
             }
-            if(showPositionInScreen!=0){
-                dialogConfig.setShowPositionInScreen(showPositionInScreen);
+            if(backgroundDrawableColor !=0){
+                dialogConfig.setBackgroundDrawableColor(backgroundDrawableColor);
             }
             if(contentViewLayout!=0){
                 dialogConfig.setContentViewLayout(contentViewLayout);
@@ -276,8 +297,9 @@ public class PopupConfig {
                 dialogConfig.setInputMode(inputMode);
             }
             //
-            dialogConfig.setTouchable(cancelable);
-            dialogConfig.setTouchOutside(cancelOutside);
+            dialogConfig.setFocusable(focusable);
+            dialogConfig.setTouchable(touchable);
+            dialogConfig.setTouchOutside(touchOutside);
             dialogConfig.setCancelBackKey(cancelBackKey);
             //
             dialogConfig.setDialogWidth(dialogWidth);

@@ -1,6 +1,7 @@
 package com.meiling.livedata.base.dialog.base;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -9,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
-
 
 import com.meiling.component.utils.log.Mlog;
 import com.meiling.livedata.R;
@@ -30,12 +30,17 @@ public abstract class BasePopupWindow<T extends ViewDataBinding> extends PopupWi
     public BasePopupWindow(Context context) {
         super(context);
         this.mContext = context;
+        initConfiguration();
         initView();
     }
 
     private void initView() {
-        layoutDialogBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), config != null && config.getContentViewLayout() != 0 ? config.getContentViewLayout() : R.layout.dialog_toast_alpha, null, false);
-        initComponentView(layoutDialogBinding.getRoot());// 实例化布局对应的子组件
+        if (config == null) {
+            throw new RuntimeException("Configuration not initialized!");
+        }
+        layoutDialogBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), config != null &&
+                config.getContentViewLayout() != 0 ? config.getContentViewLayout() : R.layout.dialog_toast_alpha, null, false);
+        initComponentView(layoutDialogBinding.getRoot());// 实例化布局对应的子组件---但实际上对于databinding方式，这个方法并不适用了，可以直接使用
         setContentView(layoutDialogBinding.getRoot());// 设置PopupWindow的View
         // 设置Window的宽高
         if (config != null && (config.getDialogWidth() > 1 ||
@@ -52,12 +57,14 @@ public abstract class BasePopupWindow<T extends ViewDataBinding> extends PopupWi
         // 设置显示的动画
         setAnimationStyle(config == null || config.getStyleId() == 0 ? R.style.popupAnimation : config.getStyleId());
         // 设置背景色【如果不设置，将不会显示出来】
-        ColorDrawable dw = new ColorDrawable(mContext.getResources().getColor(R.color.color_black));
+        ColorDrawable dw = new ColorDrawable(config == null || config.getBackgroundDrawableColor() == 0 ?
+                Color.parseColor("#00000000") :// 默认透明背景
+                mContext.getResources().getColor(config.getBackgroundDrawableColor()));
         setBackgroundDrawable(dw);
         // 设置其他属性
-        setFocusable(false);
-        setOutsideTouchable(config == null ? true : config.isTouchOutside());
-        setTouchable(config == null ? true : config.isTouchable());
+        setFocusable(config != null && config.isTouchOutside());
+        setOutsideTouchable(config == null || config.isTouchOutside());
+        setTouchable(config == null || config.isTouchable());// todo 如果这个值不设置为true，则dismiss回调将会出现问题【在show时就被调用，而不是在dismiss时被调用】
 //        setClippingEnabled(false);// 解决背景超出Fragment的问题-----【实际发现没有效果】
         setOnDismissListener(new OnDismissListener() {
             @Override
@@ -71,6 +78,9 @@ public abstract class BasePopupWindow<T extends ViewDataBinding> extends PopupWi
     }
 
     protected abstract void initComponentView(View contentView);
+
+    protected abstract void initConfiguration();
+
 
     // 避免高版本出现显示位置异常
     @Override

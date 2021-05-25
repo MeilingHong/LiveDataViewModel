@@ -93,6 +93,8 @@
         <item name="android:windowAnimationStyle">@style/AnimationAlphaInOut</item>
     </style>
 
+    <!-- 动画相关配置*************************************************************************************** -->
+
     <style name="AnimationBottomInOut" mce_bogus="1" parent="android:Animation">
         <item name="android:windowEnterAnimation">@anim/bottom_in</item>
         <item name="android:windowExitAnimation">@anim/bottom_out</item>
@@ -108,6 +110,11 @@
         <item name="android:windowExitAnimation">@anim/out_fade</item>
     </style>
 
+    <!-- 让Dialog从中间显示、消失，不适合PopupWindow的显示(跟位置相关联)-->
+    <style name="AnimationCenterInOut" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/alpha_in2</item>
+        <item name="android:windowExitAnimation">@anim/alpha_out2</item>
+    </style>
     <!-- 仿Toast的形式的Dialog*************************************************************************************** -->
     <style name="Dialog.NoTitle.AlphaIn" parent="Theme.AppCompat.Dialog">
         <item name="android:windowNoTitle">true</item>

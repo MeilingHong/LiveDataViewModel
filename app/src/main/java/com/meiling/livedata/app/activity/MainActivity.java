@@ -5,11 +5,13 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.view.View;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.meiling.component.utils.log.Mlog;
 import com.meiling.livedata.R;
 import com.meiling.livedata.app.dialog.loading.LoadingDialog;
+import com.meiling.livedata.app.popup.LoadingPopupWindow;
 import com.meiling.livedata.base.activity.ActivityConfig;
 import com.meiling.livedata.base.activity.BaseActivity;
 import com.meiling.livedata.base.dialog.callback.IDismissCallback;
@@ -66,7 +68,8 @@ public class MainActivity extends BaseActivity<ActivityDatabindMainBinding> {
         layoutBinding.click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toActivity(newIntent(Main1Activity.class), 2);
+//                toActivity(newIntent(Main1Activity.class), 2);
+                showLoadingPopupWindow();
             }
         });
     }
@@ -99,6 +102,30 @@ public class MainActivity extends BaseActivity<ActivityDatabindMainBinding> {
                 }
             });
             loadingDialog.show(getSupportFragmentManager(), "loading", 2000);
+        }
+    }
+
+    private LoadingPopupWindow loadingPopupWindow;
+
+    private void showLoadingPopupWindow() {
+        Mlog.d("afterDialogDismiss【popupWindow】---" + (loadingPopupWindow == null));
+        if (loadingPopupWindow == null) {
+            loadingPopupWindow = new LoadingPopupWindow(getApplicationContext(), null, new IDismissCallback() {
+                @Override
+                public void afterDialogDismiss() {
+
+                }
+            });
+            loadingPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                @Override
+                public void onDismiss() {
+                    Mlog.d("onDismiss【popupWindow】---");
+                    if (loadingPopupWindow != null) {
+                        loadingPopupWindow = null;
+                    }
+                }
+            });
+            loadingPopupWindow.showAsDropDown(layoutBinding.click);
         }
     }
 
