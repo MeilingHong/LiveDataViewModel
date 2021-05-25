@@ -25,7 +25,8 @@
 
 <!--   todo 但直接使用drawable/mipmap中的图片就可以，不会引起启动问题，启动动画的图还是直接这样使用比较好些
            【图片将会以被拉伸的方式全屏显示(保险的方式是UI切个大图当做背景)】     -->
-        <item name="android:windowBackground">@drawable/ic_launcher</item>
+<!--        <item name="android:windowBackground">@drawable/ic_launcher</item>-->
+        <item name="android:windowBackground">@color/color_white</item>
 <!--        <item name="android:windowBackground">@drawable/launcher_bg</item>-->
     </style>
 

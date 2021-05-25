@@ -65,7 +65,7 @@ public abstract class BasePopupWindow<T extends ViewDataBinding> extends PopupWi
         setFocusable(config != null && config.isTouchOutside());
         setOutsideTouchable(config == null || config.isTouchOutside());
         setTouchable(config == null || config.isTouchable());// todo 如果这个值不设置为true，则dismiss回调将会出现问题【在show时就被调用，而不是在dismiss时被调用】
-//        setClippingEnabled(false);// 解决背景超出Fragment的问题-----【实际发现没有效果】
+        setClippingEnabled(false);// 解决背景超出Fragment的问题-----【实际发现没有效果】
         setOnDismissListener(new OnDismissListener() {
             @Override
             public void onDismiss() {
@@ -115,5 +115,14 @@ public abstract class BasePopupWindow<T extends ViewDataBinding> extends PopupWi
             setHeight(h);
         }
         super.showAsDropDown(anchor, xoff, yoff, gravity);
+    }
+
+    @Override
+    public void showAtLocation(View parent, int gravity, int x, int y) {
+        super.showAtLocation(parent, gravity, x, y);
+        /*
+         * 使用Gravity.TOP 是居中
+         * 使用Gravity.LEFT 是靠左 【需要计算组件的高度】
+         */
     }
 }

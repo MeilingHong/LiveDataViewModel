@@ -108,15 +108,9 @@ public class MainActivity extends BaseActivity<ActivityDatabindMainBinding> {
     private LoadingPopupWindow loadingPopupWindow;
 
     private void showLoadingPopupWindow() {
-        Mlog.d("afterDialogDismiss【popupWindow】---" + (loadingPopupWindow == null));
         if (loadingPopupWindow == null) {
-            loadingPopupWindow = new LoadingPopupWindow(getApplicationContext(), null, new IDismissCallback() {
-                @Override
-                public void afterDialogDismiss() {
-
-                }
-            });
-            loadingPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            loadingPopupWindow = new LoadingPopupWindow(getApplicationContext());// 直接在构造方法中设置dismiss回调似乎有问题
+            loadingPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {// 但显示设置就不会有这个问题了
                 @Override
                 public void onDismiss() {
                     Mlog.d("onDismiss【popupWindow】---");
@@ -126,6 +120,19 @@ public class MainActivity extends BaseActivity<ActivityDatabindMainBinding> {
                 }
             });
             loadingPopupWindow.showAsDropDown(layoutBinding.click);
+
+
+            /*
+             *
+             */
+//            int[] positionInScreen = new int[2];
+//            // todo  使用 findViewById 可以拿到所在的屏幕位置，但直接使用 databind.view 的方式拿不到
+//            TextView textView = findViewById(R.id.click);
+//            textView.getLocationOnScreen(positionInScreen);// 获取在屏幕中的位置【全屏时，无偏差】
+//            //            layoutBinding.click.getLocationInWindow(positionInScreen);
+//            Mlog.w(positionInScreen[0] + "---" + positionInScreen[1] + "---" + textView.getMeasuredWidth() + "---" + textView.getMeasuredHeight());
+//            loadingPopupWindow.showAtLocation(getWindow().getDecorView(), Gravity.LEFT | Gravity.TOP,
+//                    positionInScreen[0], positionInScreen[1] + textView.getMeasuredHeight());
         }
     }
 

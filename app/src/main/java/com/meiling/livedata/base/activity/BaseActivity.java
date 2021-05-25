@@ -31,6 +31,10 @@ import androidx.databinding.ViewDataBinding;
 public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatActivity/* implements LifecycleOwner */ {
     protected T layoutBinding = null;
     protected ActivityConfig activityConfig;
+    /*
+     * todo 测试发现： 使用 layoutBinding.View.getLocationOnScreen 的方式拿不到这个View在屏幕上的位置，但
+     *  使用findViewById的方式就可以
+     */
 
     /**
      * todo 方法用于配置相关的参数，
