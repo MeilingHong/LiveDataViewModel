@@ -9,6 +9,7 @@ import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.meiling.component.utils.log.Mlog;
+import com.meiling.component.utils.network.NetworkUtil;
 import com.meiling.livedata.R;
 import com.meiling.livedata.app.dialog.loading.LoadingDialog;
 import com.meiling.livedata.app.popup.LoadingPopupWindow;
@@ -45,6 +46,7 @@ public class MainActivity extends BaseActivity<ActivityDatabindMainBinding> {
                 .setNavigatorBarColor(getResources().getColor(R.color.color_white))
                 .setPortraitMode(true)
                 .build();
+        isCheckSignalStrength = true;
     }
 
     @Override
@@ -72,6 +74,10 @@ public class MainActivity extends BaseActivity<ActivityDatabindMainBinding> {
                 showLoadingPopupWindow();
             }
         });
+
+        // 当返回为空时，表示没有SIM卡，或者SIM卡未联网
+        String name = NetworkUtil.getOperatorName(getApplicationContext());
+        layoutBinding.click.setText("--->" + name + "<---");// 中国移动返回的CMCC
     }
 
     @Override

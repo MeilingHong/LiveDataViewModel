@@ -1,4 +1,4 @@
-package com.meiling.component.utils;
+package com.meiling.component.utils.network;
 
 /**
  * @Author marisareimu

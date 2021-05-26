@@ -1,5 +1,6 @@
 package com.meiling.livedata.base.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
@@ -7,12 +8,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.MessageQueue;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.meiling.component.utils.log.Mlog;
+import com.meiling.component.utils.network.signal_strength.PhoneSignalStrengthCallback;
+import com.meiling.component.utils.network.signal_strength.PhoneSignalStrengthListener;
+import com.meiling.component.utils.network.signal_strength.SignalStrengthEnum;
 import com.meiling.component.utils.statusbar.QMUIStatusBarHelper;
 
 import androidx.annotation.ColorInt;
@@ -31,6 +37,7 @@ import androidx.databinding.ViewDataBinding;
 public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatActivity/* implements LifecycleOwner */ {
     protected T layoutBinding = null;
     protected ActivityConfig activityConfig;
+    protected boolean isCheckSignalStrength = false;
     /*
      * todo 测试发现： 使用 layoutBinding.View.getLocationOnScreen 的方式拿不到这个View在屏幕上的位置，但
      *  使用findViewById的方式就可以
@@ -91,6 +98,8 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
                 return false;
             }
         });
+
+        initPhoneSignalStrength();
     }
 
     /**
@@ -126,12 +135,14 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     protected void onResume() {
         super.onResume();
         Mlog.d("onResume---" + getClass().getName());
+        resumePhoneSignalStrength();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         Mlog.d("onPause---" + getClass().getName());
+        pausePhoneSignalStrength();
     }
 
     @Override
@@ -322,6 +333,11 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
     /*
      **********************************************************************************
      * 设置屏幕常亮，如果需要则
@@ -378,4 +394,39 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
         }
     }
+
+    /*
+     **********************************************************************************
+     */
+    private PhoneSignalStrengthListener phoneSignalStrengthListener;
+    private PhoneSignalStrengthCallback phoneSignalStrengthCallback;
+    private TelephonyManager mTelephonyManager;
+
+    private void initPhoneSignalStrength() {
+        if (isCheckSignalStrength) {
+            mTelephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+            phoneSignalStrengthCallback = new PhoneSignalStrengthCallback() {
+                @Override
+                public void getPhoneSignalStrength(SignalStrengthEnum signalStrengthEnum) {
+
+                }
+            };
+            phoneSignalStrengthListener = new PhoneSignalStrengthListener(getApplicationContext(), phoneSignalStrengthCallback);
+            mTelephonyManager.listen(phoneSignalStrengthListener, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
+        }
+    }
+
+    private void resumePhoneSignalStrength() {
+        if (isCheckSignalStrength && mTelephonyManager != null) {
+            mTelephonyManager.listen(phoneSignalStrengthListener, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
+        }
+    }
+
+    private void pausePhoneSignalStrength() {
+        if (isCheckSignalStrength && mTelephonyManager != null) {
+            mTelephonyManager.listen(phoneSignalStrengthListener, PhoneStateListener.LISTEN_NONE);
+        }
+    }
+
+
 }
