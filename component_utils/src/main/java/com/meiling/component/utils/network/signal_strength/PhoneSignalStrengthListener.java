@@ -5,6 +5,8 @@ import android.telephony.PhoneStateListener;
 import android.telephony.SignalStrength;
 
 import com.meiling.component.utils.log.Mlog;
+import com.meiling.component.utils.network.NetworkTypeEnum;
+import com.meiling.component.utils.network.NetworkUtil;
 
 /**
  * @Author marisareimu
@@ -40,28 +42,30 @@ public class PhoneSignalStrengthListener extends PhoneStateListener {
         (-70) —— (-85)dbm　2格信号
         (-85) —— (-100)dbm 1格信号
          */
+        // todo  检查当前的网络类型，优先判断网络类型，再判断网络信号强度
+        NetworkTypeEnum networkTypeEnum = NetworkUtil.getNetworkState(mApplicationContext);
         if (dbm > -55) {
-            doCallbackResult(SignalStrengthEnum.EXCELLENT);
+            doCallbackResult(networkTypeEnum, SignalStrengthEnum.EXCELLENT);
             return;
         }
         if (dbm > -70) {
-            doCallbackResult(SignalStrengthEnum.GOOD);
+            doCallbackResult(networkTypeEnum, SignalStrengthEnum.GOOD);
             return;
         }
         if (dbm > -85) {
-            doCallbackResult(SignalStrengthEnum.WELL);
+            doCallbackResult(networkTypeEnum, SignalStrengthEnum.WELL);
             return;
         }
         if (dbm > -100) {
-            doCallbackResult(SignalStrengthEnum.NORMAL);
+            doCallbackResult(networkTypeEnum, SignalStrengthEnum.NORMAL);
             return;
         }
-        doCallbackResult(SignalStrengthEnum.POORLY);
+        doCallbackResult(networkTypeEnum, SignalStrengthEnum.POORLY);
     }
 
-    private void doCallbackResult(SignalStrengthEnum signalStrengthEnum) {
+    private void doCallbackResult(NetworkTypeEnum networkTypeEnum, SignalStrengthEnum signalStrengthEnum) {
         if (phoneSignalStrengthCallback != null) {
-            phoneSignalStrengthCallback.getPhoneSignalStrength(signalStrengthEnum);
+            phoneSignalStrengthCallback.getPhoneSignalStrength(networkTypeEnum, signalStrengthEnum);
         }
     }
 

@@ -16,6 +16,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.meiling.component.utils.log.Mlog;
+import com.meiling.component.utils.network.NetworkTypeEnum;
 import com.meiling.component.utils.network.signal_strength.PhoneSignalStrengthCallback;
 import com.meiling.component.utils.network.signal_strength.PhoneSignalStrengthListener;
 import com.meiling.component.utils.network.signal_strength.SignalStrengthEnum;
@@ -262,6 +263,19 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         return new Intent(this, cls);
     }
 
+    protected Bundle newBundle(){
+        /*
+        Bundle 类针对使用 parcel 进行编组和解组进行了高度优化。 在传递参数时，建议使用Bundle进行参数封装
+        https://developer.android.google.cn/guide/components/activities/parcelables-and-bundles#java
+        通过 intent 发送数据时，应小心地将数据大小限制为几 KB。发送过多数据会导致系统抛出 TransactionTooLargeException 异常。
+
+        原因：Binder 事务缓冲区的大小固定有限，目前为 1MB，由进程中正在处理的所有事务共享。
+        由于此限制是进程级别而不是 Activity 级别的限制，因此这些事务包括应用中的所有 binder 事务，
+        例如 onSaveInstanceState，startActivity 以及与系统的任何互动。
+         */
+        return new Bundle();
+    }
+
     protected void toActivity(Intent intent, int requestCode) {
         startActivityForResult(intent, requestCode);
     }
@@ -407,8 +421,36 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
             mTelephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
             phoneSignalStrengthCallback = new PhoneSignalStrengthCallback() {
                 @Override
-                public void getPhoneSignalStrength(SignalStrengthEnum signalStrengthEnum) {
-
+                public void getPhoneSignalStrength(NetworkTypeEnum networkTypeEnum, SignalStrengthEnum signalStrengthEnum) {
+                    switch (networkTypeEnum){
+                        case NONE:{
+                            // 无网络
+                            break;
+                        }
+                        /*
+                         ******************************************************
+                         * 以下类型根据
+                         */
+                        case WIFI:{
+                            // WIFI
+                            break;
+                        }
+                        case MOBILE_2G:{
+                            break;
+                        }
+                        case MOBILE_3G:{
+                            break;
+                        }
+                        case MOBILE_4G:{
+                            break;
+                        }
+                        case MOBILE_5G:{
+                            break;
+                        }
+                        case MOBILE:{
+                            break;
+                        }
+                    }
                 }
             };
             phoneSignalStrengthListener = new PhoneSignalStrengthListener(getApplicationContext(), phoneSignalStrengthCallback);
@@ -426,6 +468,11 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         if (isCheckSignalStrength && mTelephonyManager != null) {
             mTelephonyManager.listen(phoneSignalStrengthListener, PhoneStateListener.LISTEN_NONE);
         }
+    }
+
+    private void networkTypeChange(NetworkTypeEnum oldType,NetworkTypeEnum newType){
+        // 通知网络类型发生了变化
+        // 从就类型切换成了新类型的网络
     }
 
 
