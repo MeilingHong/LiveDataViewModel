@@ -39,6 +39,7 @@ public class BaseApplication extends MultiDexApplication {
         UMConfigure.init(this, "60af1773dd01c71b57c74c8a", "all", UMConfigure.DEVICE_TYPE_PHONE, "");
         //选择AUTO页面采集模式，统计SDK基础指标无需手动埋点可自动采集。
         //建议在宿主App的Application.onCreate函数中调用此函数。
-        MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
+        MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.MANUAL);// 页面调用的统计，需要第二天才能够看到
+//        MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);// 自动统计页面调用【但不包含Fragment】
     }
 }

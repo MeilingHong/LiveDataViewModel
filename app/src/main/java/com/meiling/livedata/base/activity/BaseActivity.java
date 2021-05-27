@@ -21,6 +21,7 @@ import com.meiling.component.utils.network.signal_strength.PhoneSignalStrengthCa
 import com.meiling.component.utils.network.signal_strength.PhoneSignalStrengthListener;
 import com.meiling.component.utils.network.signal_strength.SignalStrengthEnum;
 import com.meiling.component.utils.statusbar.QMUIStatusBarHelper;
+import com.umeng.analytics.MobclickAgent;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
@@ -136,6 +137,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     protected void onResume() {
         super.onResume();
         Mlog.d("onResume---" + getClass().getName());
+        MobclickAgent.onResume(this);
         resumePhoneSignalStrength();
     }
 
@@ -143,6 +145,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     protected void onPause() {
         super.onPause();
         Mlog.d("onPause---" + getClass().getName());
+        MobclickAgent.onPause(this);
         pausePhoneSignalStrength();
     }
 
