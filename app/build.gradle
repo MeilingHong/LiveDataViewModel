@@ -37,6 +37,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    // 工具module引用请跟进自身业务需要进行合理增减，用不到的工具类，不建议放入，虽然AS的release打包能够删减没用到的资源，方法等
     implementation project(path: ':component_utils')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

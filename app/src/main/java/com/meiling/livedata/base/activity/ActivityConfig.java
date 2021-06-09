@@ -28,8 +28,10 @@ public class ActivityConfig {
     public boolean isFullscreen() {
         return isFullscreen;
     }
-
-    public void setFullscreen(boolean fullscreen) {
+    /**
+     * 对设置参数的方法私有化，避免外部直接修改配置数据，破坏本身的架构设计
+     */
+    private void setFullscreen(boolean fullscreen) {
         isFullscreen = fullscreen;
     }
 
@@ -37,7 +39,7 @@ public class ActivityConfig {
         return isShowStatusBar;
     }
 
-    public void setShowStatusBar(boolean showStatusBar) {
+    private void setShowStatusBar(boolean showStatusBar) {
         isShowStatusBar = showStatusBar;
     }
 
@@ -45,7 +47,7 @@ public class ActivityConfig {
         return isStatusBarFontColorWhite;
     }
 
-    public void setStatusBarFontColorWhite(boolean statusBarFontColorWhite) {
+    private void setStatusBarFontColorWhite(boolean statusBarFontColorWhite) {
         isStatusBarFontColorWhite = statusBarFontColorWhite;
     }
 
@@ -53,7 +55,7 @@ public class ActivityConfig {
         return isKeepScreenOn;
     }
 
-    public void setKeepScreenOn(boolean keepScreenOn) {
+    private void setKeepScreenOn(boolean keepScreenOn) {
         isKeepScreenOn = keepScreenOn;
     }
 
@@ -61,7 +63,7 @@ public class ActivityConfig {
         return isBlockBackKey;
     }
 
-    public void setBlockBackKey(boolean blockBackKey) {
+    private void setBlockBackKey(boolean blockBackKey) {
         isBlockBackKey = blockBackKey;
     }
 
@@ -69,7 +71,7 @@ public class ActivityConfig {
         return isDoubleBackExit;
     }
 
-    public void setDoubleBackExit(boolean doubleBackExit) {
+    private void setDoubleBackExit(boolean doubleBackExit) {
         isDoubleBackExit = doubleBackExit;
     }
 
@@ -77,7 +79,7 @@ public class ActivityConfig {
         return isPortraitMode;
     }
 
-    public void setPortraitMode(boolean portraitMode) {
+    private void setPortraitMode(boolean portraitMode) {
         isPortraitMode = portraitMode;
     }
 
@@ -85,7 +87,7 @@ public class ActivityConfig {
         return navigatorBarColor;
     }
 
-    public void setNavigatorBarColor(int navigatorBarColor) {
+    private void setNavigatorBarColor(int navigatorBarColor) {
         this.navigatorBarColor = navigatorBarColor;
     }
 

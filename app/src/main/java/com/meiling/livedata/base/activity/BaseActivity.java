@@ -38,6 +38,9 @@ import androidx.databinding.ViewDataBinding;
  */
 public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatActivity/* implements LifecycleOwner */ {
     protected T layoutBinding = null;
+    /**
+     * 使用构建者（Builder）模式固定实现Activity的通用参数配置
+     */
     protected ActivityConfig activityConfig;
     protected boolean isCheckSignalStrength = false;
     /*

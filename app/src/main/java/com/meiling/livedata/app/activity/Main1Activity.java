@@ -1,9 +1,10 @@
 package com.meiling.livedata.app.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 
+import com.meiling.component.utils.datahandle.UnitExchangeUtil;
+import com.meiling.component.utils.text_show.SpanTextUtil;
 import com.meiling.livedata.R;
 import com.meiling.livedata.base.activity.ActivityConfig;
 import com.meiling.livedata.base.activity.BaseActivity;
@@ -50,11 +51,12 @@ public class Main1Activity extends BaseActivity<ActivityDatabindMainBinding> {
         layoutBinding.click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = newIntent(Main2Activity.class);
-                Bundle bundle = newBundle();
-                bundle.putString("key", "value");
-                intent.putExtras(bundle);
-                toActivity(intent, 3);
+//                Intent intent = newIntent(Main2Activity.class);
+//                Bundle bundle = newBundle();
+//                bundle.putString("key", "value");
+//                intent.putExtras(bundle);
+//                toActivity(intent, 3);
+
             }
         });
     }

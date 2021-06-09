@@ -19,7 +19,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
 /**
- * @Author huangzhou@ubanquan.cn
+ * @Author marisareimu
  * @time 2021-05-17 11:22
  */
 public abstract class BasePopupWindow<T extends ViewDataBinding> extends PopupWindow {

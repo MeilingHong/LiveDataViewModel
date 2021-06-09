@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import com.meiling.component.utils.datahandle.UnitExchangeUtil;
 import com.meiling.component.utils.log.Mlog;
 import com.meiling.component.utils.network.NetworkUtil;
+import com.meiling.component.utils.text_show.SpanTextUtil;
 import com.meiling.livedata.R;
 import com.meiling.livedata.app.dialog.loading.LoadingDialog;
 import com.meiling.livedata.app.popup.LoadingPopupWindow;
@@ -71,7 +74,9 @@ public class MainActivity extends BaseActivity<ActivityDatabindMainBinding> {
             @Override
             public void onClick(View v) {
 //                toActivity(newIntent(Main1Activity.class), 2);
-                showLoadingPopupWindow();
+//                showLoadingPopupWindow();
+                showSpanTextCall();
+
             }
         });
 
@@ -83,6 +88,32 @@ public class MainActivity extends BaseActivity<ActivityDatabindMainBinding> {
     @Override
     protected void lazyloadCallback() {
 
+    }
+
+    /*
+     **************************************************************************************
+     */
+    private void showSpanTextCall() {
+        /**
+         * todo 当用于显示Span的View，在初始文字大小设置上有问题时，可能会出现：
+         *  1、应该显示...时，显示不出来，且显示文字出现被截断的情况
+         *  2、显示...时，显示不够完全，中间可能会被截断导致显示只有一半的.
+         */
+        /**
+         * todo 实践上较好的实现方式为以下这种
+         *  先初始文字大小为可能显示的最大值，然后调用Span工具，配置相关参数
+         *  优势：能够适应任意的显示上的通用要求
+         *  劣势：需要传递的参数过多
+         */
+        layoutBinding.click.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 21);// 先默认处理成最大的显示文字大小，然后再进行显示
+        SpanTextUtil.setSpanText(getApplicationContext(), layoutBinding.click, "$3000000000000000000.52",
+                new int[]{R.color.color_black_33, R.color.colorPrimaryDark, R.color.color_black_33},
+                new boolean[]{false, false, false},
+                new boolean[]{false, false, false},
+                new float[]{UnitExchangeUtil.dip2px(getApplicationContext(), 12),
+                        UnitExchangeUtil.dip2px(getApplicationContext(), 21),
+                        UnitExchangeUtil.dip2px(getApplicationContext(), 12)},
+                new int[]{0, 1, 20}, null);
     }
 
     /*

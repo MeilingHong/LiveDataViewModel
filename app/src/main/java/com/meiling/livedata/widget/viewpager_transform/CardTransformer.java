@@ -11,8 +11,8 @@ import androidx.core.view.ViewCompat;
 import androidx.viewpager.widget.ViewPager;
 
 /**
- * Created by huangzhou@ulord.net on 2021-04-01  15:59
- * project Ubanquan
+ * Created by marisareimu on 2021-04-01  15:59
+ * project
  */
 public class CardTransformer implements ViewPager.PageTransformer {
     private Context mContext;
