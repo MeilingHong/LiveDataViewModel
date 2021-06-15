@@ -16,7 +16,7 @@ import androidx.annotation.Nullable;
  * 作用，方便针对同一个TextView（或者子类），在显示特定文字时，区分文字字体类型、颜色，大小，加粗，下划线等属性
  * 仅承担显示功能，不能处理用户的点击效果，当需要处理类似超链接点击效果时，请使用ClickableSpan的子类
  */
-public class CommonTypefaceSpan extends TypefaceSpan implements NoCopySpan {
+public class CommonTypefaceSpan extends TypefaceSpan implements NoCopySpan {// todo 使用NoCopySpan，防止使用无障碍的时候对数据持有导致内存泄漏问题，但使用无障碍也会导致崩溃问题
 
     private Context mContext;
     private int colorRes = 0;
