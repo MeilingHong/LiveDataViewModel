@@ -2,7 +2,6 @@ package com.meiling.component.utils.span;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.text.NoCopySpan;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.view.View;
@@ -12,7 +11,7 @@ import androidx.annotation.ColorRes;
 /**
  * 通用的点击类
  */
-public class CommonClickSpan extends ClickableSpan implements NoCopySpan {
+public class CommonClickSpan extends ClickableSpan {
 
     private Context mContext;
     private int colorRes = 0;
@@ -32,6 +31,7 @@ public class CommonClickSpan extends ClickableSpan implements NoCopySpan {
         this.hasUnderLine = hasUnderLine;
         this.iClickListener = iClickListener;
     }
+
     public CommonClickSpan(Context context, @ColorRes int colorRes, boolean hasUnderLine, boolean bold) {
         this.mContext = context;
         this.colorRes = colorRes;
@@ -56,8 +56,6 @@ public class CommonClickSpan extends ClickableSpan implements NoCopySpan {
         ds.setUnderlineText(hasUnderLine);
         ds.setFakeBoldText(bold);
     }
-
-
 
 
     public interface IClickListener {
