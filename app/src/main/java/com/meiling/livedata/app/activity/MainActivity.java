@@ -14,6 +14,7 @@ import com.meiling.component.utils.log.Mlog;
 import com.meiling.component.utils.network.NetworkUtil;
 import com.meiling.component.utils.text_show.SpanTextUtil;
 import com.meiling.livedata.R;
+import com.meiling.livedata.app.activity.share.IntentShareActivity;
 import com.meiling.livedata.app.dialog.loading.LoadingDialog;
 import com.meiling.livedata.app.popup.LoadingPopupWindow;
 import com.meiling.livedata.base.activity.ActivityConfig;
@@ -75,8 +76,8 @@ public class MainActivity extends BaseActivity<ActivityDatabindMainBinding> {
             public void onClick(View v) {
 //                toActivity(newIntent(Main1Activity.class), 2);
 //                showLoadingPopupWindow();
-                showSpanTextCall();
-
+//                showSpanTextCall();
+                toActivity(newIntent(IntentShareActivity.class), 2);
             }
         });
 

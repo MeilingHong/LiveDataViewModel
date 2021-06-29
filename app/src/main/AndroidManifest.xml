@@ -18,6 +18,10 @@
         <package android:name="hk.alipay.wallet" />
     </queries>
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name=".base.application.BaseApplication"
         android:allowBackup="true"
@@ -35,6 +39,19 @@
         </activity>
         <activity android:name=".app.activity.Main1Activity" />
         <activity android:name=".app.activity.Main2Activity" />
+        <activity android:name=".app.activity.share.IntentShareActivity" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.meiling.livedata.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+
+        </provider>
     </application>
 
 </manifest>
