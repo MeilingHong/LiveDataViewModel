@@ -40,6 +40,9 @@
         <activity android:name=".app.activity.Main1Activity" />
         <activity android:name=".app.activity.Main2Activity" />
         <activity android:name=".app.activity.share.IntentShareActivity" />
+        <activity android:name=".app.activity.LiveDataActivity" />
+        <activity android:name=".app.activity.SpannableStringShowMultiSizeTextActivity" />
+        <activity android:name=".app.activity.DataBindingActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

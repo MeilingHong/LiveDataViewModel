@@ -124,6 +124,10 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
      * 系统方法
      */
 
+    public String getBaseClassName() {
+        return getClass().getName();
+    }
+
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -269,7 +273,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         return new Intent(this, cls);
     }
 
-    protected Bundle newBundle(){
+    protected Bundle newBundle() {
         /*
         Bundle 类针对使用 parcel 进行编组和解组进行了高度优化。 在传递参数时，建议使用Bundle进行参数封装
         https://developer.android.google.cn/guide/components/activities/parcelables-and-bundles#java
@@ -428,8 +432,8 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
             phoneSignalStrengthCallback = new PhoneSignalStrengthCallback() {
                 @Override
                 public void getPhoneSignalStrength(NetworkTypeEnum networkTypeEnum, SignalStrengthEnum signalStrengthEnum) {
-                    switch (networkTypeEnum){
-                        case NONE:{
+                    switch (networkTypeEnum) {
+                        case NONE: {
                             // 无网络
                             break;
                         }
@@ -437,23 +441,23 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
                          ******************************************************
                          * 以下类型根据
                          */
-                        case WIFI:{
+                        case WIFI: {
                             // WIFI
                             break;
                         }
-                        case MOBILE_2G:{
+                        case MOBILE_2G: {
                             break;
                         }
-                        case MOBILE_3G:{
+                        case MOBILE_3G: {
                             break;
                         }
-                        case MOBILE_4G:{
+                        case MOBILE_4G: {
                             break;
                         }
-                        case MOBILE_5G:{
+                        case MOBILE_5G: {
                             break;
                         }
-                        case MOBILE:{
+                        case MOBILE: {
                             break;
                         }
                     }
@@ -476,7 +480,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         }
     }
 
-    private void networkTypeChange(NetworkTypeEnum oldType,NetworkTypeEnum newType){
+    private void networkTypeChange(NetworkTypeEnum oldType, NetworkTypeEnum newType) {
         // 通知网络类型发生了变化
         // 从就类型切换成了新类型的网络
     }

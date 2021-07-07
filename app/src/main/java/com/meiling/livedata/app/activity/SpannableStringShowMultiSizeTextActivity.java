@@ -14,6 +14,7 @@ import com.meiling.component.utils.log.Mlog;
 import com.meiling.component.utils.network.NetworkUtil;
 import com.meiling.component.utils.text_show.SpanTextUtil;
 import com.meiling.livedata.R;
+import com.meiling.livedata.app.activity.share.IntentShareActivity;
 import com.meiling.livedata.app.dialog.loading.LoadingDialog;
 import com.meiling.livedata.app.popup.LoadingPopupWindow;
 import com.meiling.livedata.base.activity.ActivityConfig;
@@ -21,21 +22,16 @@ import com.meiling.livedata.base.activity.BaseActivity;
 import com.meiling.livedata.base.dialog.callback.IDismissCallback;
 import com.meiling.livedata.base.dialog.callback.IShowCallback;
 import com.meiling.livedata.databinding.ActivityDatabindMainBinding;
-import com.meiling.livedata.lifecycle.FullLifecycleObserver;
-import com.meiling.livedata.lifecycle.LifecycleAdapter;
 import com.meiling.livedata.viewmodel.TitleViewModel;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 
 /**
  * @Author marisareimu
  * @time 2021-05-19 10:52
  */
-public class MainActivity extends BaseActivity<ActivityDatabindMainBinding> {
-
-    private TitleViewModel mTitle;
+public class SpannableStringShowMultiSizeTextActivity extends BaseActivity<ActivityDatabindMainBinding> {
 
     private Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -71,76 +67,23 @@ public class MainActivity extends BaseActivity<ActivityDatabindMainBinding> {
 
     @Override
     protected void initViewAfterOnCreate() {
-        // todo 创建一个ViewModel对象，并进行关联
-        mTitle = getDefaultViewModelProviderFactory().create(TitleViewModel.class);
-//        mTitle = ViewModelProviders.of(this).get(TitleViewModel.class);//
-        mTitle.getmTitle().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String titleString) {
-                layoutBinding.back.setText(titleString);// 当值发生变化时，进行更新显示
-            }
-        });
-        // todo 更新LiveData数据
-        mTitle.getmTitle().setValue("默认的标题");
-
 
         layoutBinding.back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                showLoadingDialog();
-                finish();
+                showLoadingDialog();
             }
         });
         layoutBinding.click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                toActivity(newIntent(Main1Activity.class), 2);
-//                showLoadingPopupWindow();
-//                showSpanTextCall();
-                toActivity(newIntent(LiveDataActivity.class), 2);
+                showSpanTextCall();
             }
         });
 
         // 当返回为空时，表示没有SIM卡，或者SIM卡未联网
         String name = NetworkUtil.getOperatorName(getApplicationContext());
         layoutBinding.click.setText("--->" + name + "<---");// 中国移动返回的CMCC
-
-        getLifecycle().addObserver(new LifecycleAdapter(new FullLifecycleObserver() {
-            @Override
-            public void onCreate(LifecycleOwner owner) {
-                Mlog.w("Lifecycle  onCreate" + (owner != null ? owner.getClass().getName() : getBaseClassName()));
-            }
-
-            @Override
-            public void onStart(LifecycleOwner owner) {
-                Mlog.w("Lifecycle  onStart" + (owner != null ? owner.getClass().getName() : getBaseClassName()));
-            }
-
-            @Override
-            public void onResume(LifecycleOwner owner) {
-                Mlog.w("Lifecycle  onResume" + (owner != null ? owner.getClass().getName() : getBaseClassName()));
-            }
-
-            @Override
-            public void onPause(LifecycleOwner owner) {
-                Mlog.w("Lifecycle  onPause" + (owner != null ? owner.getClass().getName() : getBaseClassName()));
-            }
-
-            @Override
-            public void onStop(LifecycleOwner owner) {
-                Mlog.w("Lifecycle  onStop" + (owner != null ? owner.getClass().getName() : getBaseClassName()));
-            }
-
-            @Override
-            public void onDestroy(LifecycleOwner owner) {
-                Mlog.w("Lifecycle  onDestroy" + (owner != null ? owner.getClass().getName() : getBaseClassName()));
-            }
-
-            @Override
-            public void onAny(LifecycleOwner owner) {
-                Mlog.w("Lifecycle  onAny" + (owner != null ? owner.getClass().getName() : getBaseClassName()));
-            }
-        }, this));;
     }
 
     @Override

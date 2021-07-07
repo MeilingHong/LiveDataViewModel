@@ -21,21 +21,25 @@ import com.meiling.livedata.base.activity.BaseActivity;
 import com.meiling.livedata.base.dialog.callback.IDismissCallback;
 import com.meiling.livedata.base.dialog.callback.IShowCallback;
 import com.meiling.livedata.databinding.ActivityDatabindMainBinding;
-import com.meiling.livedata.lifecycle.FullLifecycleObserver;
-import com.meiling.livedata.lifecycle.LifecycleAdapter;
 import com.meiling.livedata.viewmodel.TitleViewModel;
+import com.meiling.livedata.viewmodel.data.DataEntity;
+import com.meiling.livedata.viewmodel.data.DataViewModel;
+
+import java.util.Random;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 
 /**
  * @Author marisareimu
  * @time 2021-05-19 10:52
  */
-public class MainActivity extends BaseActivity<ActivityDatabindMainBinding> {
+public class LiveDataActivity extends BaseActivity<ActivityDatabindMainBinding> {
 
     private TitleViewModel mTitle;
+    private DataViewModel mData;
+    private DataEntity mDataEntity;
+    private Random mRandom;
 
     private Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -71,76 +75,58 @@ public class MainActivity extends BaseActivity<ActivityDatabindMainBinding> {
 
     @Override
     protected void initViewAfterOnCreate() {
-        // todo 创建一个ViewModel对象，并进行关联
-        mTitle = getDefaultViewModelProviderFactory().create(TitleViewModel.class);
-//        mTitle = ViewModelProviders.of(this).get(TitleViewModel.class);//
-        mTitle.getmTitle().observe(this, new Observer<String>() {
+        mRandom = new Random();
+        mDataEntity = new DataEntity();
+//        // todo 创建一个ViewModel对象，并进行关联
+//        mTitle = getDefaultViewModelProviderFactory().create(TitleViewModel.class);
+////        mTitle = ViewModelProviders.of(this).get(TitleViewModel.class);//
+//        mTitle.getmTitle().observe(this, new Observer<String>() {
+//            @Override
+//            public void onChanged(String titleString) {
+//                layoutBinding.click.setText(titleString);// 当值发生变化时，进行更新显示
+//            }
+//        });
+        mData = getDefaultViewModelProviderFactory().create(DataViewModel.class);
+        mData.getData().observe(this, new Observer<DataEntity>() {
             @Override
-            public void onChanged(String titleString) {
-                layoutBinding.back.setText(titleString);// 当值发生变化时，进行更新显示
+            public void onChanged(DataEntity dataEntity) {
+                layoutBinding.click.setText(dataEntity.getName());// 当值发生变化时，进行更新显示
             }
         });
-        // todo 更新LiveData数据
-        mTitle.getmTitle().setValue("默认的标题");
+        mData.getData().setValue(mDataEntity);// 由于没有设置MutableLiveData的值，所以无法进行修改
 
 
         layoutBinding.back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                showLoadingDialog();
                 finish();
             }
         });
         layoutBinding.click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                toActivity(newIntent(Main1Activity.class), 2);
-//                showLoadingPopupWindow();
-//                showSpanTextCall();
-                toActivity(newIntent(LiveDataActivity.class), 2);
+//                Mlog.e("mData != null?" + (mData != null));
+//                Mlog.e("mData.getData() != null?" + (mData.getData() != null));
+//                Mlog.e("mData.getData().getValue() != null?" + (mData.getData().getValue() != null));
+//                toActivity(newIntent(IntentShareActivity.class), 2);
+                // todo 更新LiveData数据
+//                mTitle.getmTitle().setValue("默认的标题" + mRandom.nextDouble());
+                if (mData != null && mData.getData() != null && mData.getData().getValue() != null) {
+                    // 1、方式一，直接针对LiveData对象中某个属性进行值的变更
+//                    mData.getData().getValue().setName("默认的标题" + mRandom.nextDouble());
+//                    mDataEntity.setName("默认的标题" + mRandom.nextDouble());
+                    //2、方式二，在针对LiveData对象中属性变更后，重新调用setValue方式
+                    mData.getData().getValue().setName("默认的标题" + mRandom.nextDouble());
+                    mData.getData().setValue(mData.getData().getValue());
+//                    mDataEntity.setName("默认的标题" + mRandom.nextDouble());
+//                    mData.getData().setValue(mDataEntity);
+                }
             }
         });
 
         // 当返回为空时，表示没有SIM卡，或者SIM卡未联网
         String name = NetworkUtil.getOperatorName(getApplicationContext());
         layoutBinding.click.setText("--->" + name + "<---");// 中国移动返回的CMCC
-
-        getLifecycle().addObserver(new LifecycleAdapter(new FullLifecycleObserver() {
-            @Override
-            public void onCreate(LifecycleOwner owner) {
-                Mlog.w("Lifecycle  onCreate" + (owner != null ? owner.getClass().getName() : getBaseClassName()));
-            }
-
-            @Override
-            public void onStart(LifecycleOwner owner) {
-                Mlog.w("Lifecycle  onStart" + (owner != null ? owner.getClass().getName() : getBaseClassName()));
-            }
-
-            @Override
-            public void onResume(LifecycleOwner owner) {
-                Mlog.w("Lifecycle  onResume" + (owner != null ? owner.getClass().getName() : getBaseClassName()));
-            }
-
-            @Override
-            public void onPause(LifecycleOwner owner) {
-                Mlog.w("Lifecycle  onPause" + (owner != null ? owner.getClass().getName() : getBaseClassName()));
-            }
-
-            @Override
-            public void onStop(LifecycleOwner owner) {
-                Mlog.w("Lifecycle  onStop" + (owner != null ? owner.getClass().getName() : getBaseClassName()));
-            }
-
-            @Override
-            public void onDestroy(LifecycleOwner owner) {
-                Mlog.w("Lifecycle  onDestroy" + (owner != null ? owner.getClass().getName() : getBaseClassName()));
-            }
-
-            @Override
-            public void onAny(LifecycleOwner owner) {
-                Mlog.w("Lifecycle  onAny" + (owner != null ? owner.getClass().getName() : getBaseClassName()));
-            }
-        }, this));;
     }
 
     @Override
