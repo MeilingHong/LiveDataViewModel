@@ -22,7 +22,7 @@ import com.meiling.livedata.base.dialog.callback.IDismissCallback;
 import com.meiling.livedata.base.dialog.callback.IShowCallback;
 import com.meiling.livedata.databinding.ActivityDatabindMainBinding;
 import com.meiling.livedata.lifecycle.FullLifecycleObserver;
-import com.meiling.livedata.lifecycle.LifecycleAdapter;
+import com.meiling.livedata.lifecycle.Lifecycle2Adapter;
 import com.meiling.livedata.viewmodel.TitleViewModel;
 
 import androidx.annotation.NonNull;
@@ -88,7 +88,8 @@ public class MainActivity extends BaseActivity<ActivityDatabindMainBinding> {
             @Override
             public void onClick(View v) {
 //                showLoadingDialog();
-                finish();
+//                finish();
+                toActivity(newIntent(LiveData2Activity.class), 2);
             }
         });
         layoutBinding.click.setOnClickListener(new View.OnClickListener() {
@@ -104,43 +105,6 @@ public class MainActivity extends BaseActivity<ActivityDatabindMainBinding> {
         // 当返回为空时，表示没有SIM卡，或者SIM卡未联网
         String name = NetworkUtil.getOperatorName(getApplicationContext());
         layoutBinding.click.setText("--->" + name + "<---");// 中国移动返回的CMCC
-
-        getLifecycle().addObserver(new LifecycleAdapter(new FullLifecycleObserver() {
-            @Override
-            public void onCreate(LifecycleOwner owner) {
-                Mlog.w("Lifecycle  onCreate" + (owner != null ? owner.getClass().getName() : getBaseClassName()));
-            }
-
-            @Override
-            public void onStart(LifecycleOwner owner) {
-                Mlog.w("Lifecycle  onStart" + (owner != null ? owner.getClass().getName() : getBaseClassName()));
-            }
-
-            @Override
-            public void onResume(LifecycleOwner owner) {
-                Mlog.w("Lifecycle  onResume" + (owner != null ? owner.getClass().getName() : getBaseClassName()));
-            }
-
-            @Override
-            public void onPause(LifecycleOwner owner) {
-                Mlog.w("Lifecycle  onPause" + (owner != null ? owner.getClass().getName() : getBaseClassName()));
-            }
-
-            @Override
-            public void onStop(LifecycleOwner owner) {
-                Mlog.w("Lifecycle  onStop" + (owner != null ? owner.getClass().getName() : getBaseClassName()));
-            }
-
-            @Override
-            public void onDestroy(LifecycleOwner owner) {
-                Mlog.w("Lifecycle  onDestroy" + (owner != null ? owner.getClass().getName() : getBaseClassName()));
-            }
-
-            @Override
-            public void onAny(LifecycleOwner owner) {
-                Mlog.w("Lifecycle  onAny" + (owner != null ? owner.getClass().getName() : getBaseClassName()));
-            }
-        }, this));;
     }
 
     @Override

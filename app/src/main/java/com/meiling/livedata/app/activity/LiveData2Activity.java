@@ -22,7 +22,7 @@ import com.meiling.livedata.base.dialog.callback.IDismissCallback;
 import com.meiling.livedata.base.dialog.callback.IShowCallback;
 import com.meiling.livedata.databinding.ActivityDatabindMainBinding;
 import com.meiling.livedata.lifecycle.FullLifecycleObserver;
-import com.meiling.livedata.lifecycle.Lifecycle2Adapter;
+import com.meiling.livedata.lifecycle.LifecycleAdapter;
 import com.meiling.livedata.viewmodel.TitleViewModel;
 import com.meiling.livedata.viewmodel.data.DataEntity;
 import com.meiling.livedata.viewmodel.data.DataViewModel;
@@ -37,7 +37,7 @@ import androidx.lifecycle.Observer;
  * @Author marisareimu
  * @time 2021-05-19 10:52
  */
-public class LiveDataActivity extends BaseActivity<ActivityDatabindMainBinding> {
+public class LiveData2Activity extends BaseActivity<ActivityDatabindMainBinding> {
 
     private TitleViewModel mTitle;
     private DataViewModel mData;
@@ -131,8 +131,8 @@ public class LiveDataActivity extends BaseActivity<ActivityDatabindMainBinding> 
         String name = NetworkUtil.getOperatorName(getApplicationContext());
         layoutBinding.click.setText("--->" + name + "<---");// 中国移动返回的CMCC
 
-
-        getLifecycle().addObserver(new Lifecycle2Adapter(new FullLifecycleObserver() {
+        // 两种方式都可以接收到对应的生命周期回调，但有一个问题：启动Activity首次会接收到全部生命周期回调
+        getLifecycle().addObserver(new LifecycleAdapter(new FullLifecycleObserver() {
             @Override
             public void onCreate(LifecycleOwner owner) {
                 Mlog.w("Lifecycle  onCreate  ---  " + (owner != null ? owner.getClass().getName() : getBaseClassName()));

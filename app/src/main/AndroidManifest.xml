@@ -43,6 +43,7 @@
         <activity android:name=".app.activity.LiveDataActivity" />
         <activity android:name=".app.activity.SpannableStringShowMultiSizeTextActivity" />
         <activity android:name=".app.activity.DataBindingActivity" />
+        <activity android:name=".app.activity.LiveData2Activity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
