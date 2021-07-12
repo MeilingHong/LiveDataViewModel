@@ -10,6 +10,13 @@ public class DataEntity extends ToString {
     private String name;
     private int age;
 
+    public DataEntity() {
+    }
+
+    public DataEntity(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }

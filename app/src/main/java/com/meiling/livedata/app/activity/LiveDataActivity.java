@@ -20,7 +20,7 @@ import com.meiling.livedata.base.activity.ActivityConfig;
 import com.meiling.livedata.base.activity.BaseActivity;
 import com.meiling.livedata.base.dialog.callback.IDismissCallback;
 import com.meiling.livedata.base.dialog.callback.IShowCallback;
-import com.meiling.livedata.databinding.ActivityDatabindMainBinding;
+import com.meiling.livedata.databinding.ActivityDatabindLivedataBinding;
 import com.meiling.livedata.lifecycle.FullLifecycleObserver;
 import com.meiling.livedata.lifecycle.Lifecycle2Adapter;
 import com.meiling.livedata.viewmodel.TitleViewModel;
@@ -37,11 +37,12 @@ import androidx.lifecycle.Observer;
  * @Author marisareimu
  * @time 2021-05-19 10:52
  */
-public class LiveDataActivity extends BaseActivity<ActivityDatabindMainBinding> {
+public class LiveDataActivity extends BaseActivity<ActivityDatabindLivedataBinding> {
 
     private TitleViewModel mTitle;
     private DataViewModel mData;
-    private DataEntity mDataEntity;
+    private DataViewModel mData1;
+    private DataViewModel mData2;
     private Random mRandom;
 
     private Handler mHandler = new Handler(Looper.getMainLooper()) {
@@ -62,13 +63,13 @@ public class LiveDataActivity extends BaseActivity<ActivityDatabindMainBinding> 
                 .setKeepScreenOn(false)
                 .setNavigatorBarColor(getResources().getColor(R.color.color_white))
                 .setPortraitMode(true)
+                .setCheckSignalStrength(true)
                 .build();
-        isCheckSignalStrength = true;
     }
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_databind_main;
+        return R.layout.activity_databind_livedata;
     }
 
     @Override
@@ -79,26 +80,48 @@ public class LiveDataActivity extends BaseActivity<ActivityDatabindMainBinding> 
     @Override
     protected void initViewAfterOnCreate() {
         mRandom = new Random();
-        mDataEntity = new DataEntity();
 //        // todo 创建一个ViewModel对象，并进行关联
-//        mTitle = getDefaultViewModelProviderFactory().create(TitleViewModel.class);
-////        mTitle = ViewModelProviders.of(this).get(TitleViewModel.class);//
-//        mTitle.getmTitle().observe(this, new Observer<String>() {
-//            @Override
-//            public void onChanged(String titleString) {
-//                layoutBinding.click.setText(titleString);// 当值发生变化时，进行更新显示
-//            }
-//        });
+        mTitle = getDefaultViewModelProviderFactory().create(TitleViewModel.class);
+//        mTitle = ViewModelProviders.of(this).get(TitleViewModel.class);//
+        mTitle.getmTitle().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String titleString) {
+                layoutBinding.click.setText(titleString);// 当值发生变化时，进行更新显示
+            }
+        });
+
+        /*
+         **********************************************************************************************************
+         */
+
         mData = getDefaultViewModelProviderFactory().create(DataViewModel.class);
         mData.getData().observe(this, new Observer<DataEntity>() {
             @Override
             public void onChanged(DataEntity dataEntity) {
-                layoutBinding.click.setText(dataEntity.getName());// 当值发生变化时，进行更新显示
+                layoutBinding.click1.setText(dataEntity.getName());// 当值发生变化时，进行更新显示
             }
         });
-        mData.getData().setValue(mDataEntity);// 由于没有设置MutableLiveData的值，所以无法进行修改
 
+        mData1 = getDefaultViewModelProviderFactory().create(DataViewModel.class);
+        mData1.getData().observe(this, new Observer<DataEntity>() {
+            @Override
+            public void onChanged(DataEntity dataEntity) {
+                layoutBinding.click2.setText(dataEntity.getName());// 当值发生变化时，进行更新显示
+            }
+        });
 
+        mData2 = getDefaultViewModelProviderFactory().create(DataViewModel.class);
+        mData2.getData().observe(this, new Observer<DataEntity>() {
+            @Override
+            public void onChanged(DataEntity dataEntity) {
+                layoutBinding.click3.setText(dataEntity.getName());// 当值发生变化时，进行更新显示
+            }
+        });
+        mData2.getData().setValue(new DataEntity("mData2 初始设置"));// 由于没有设置MutableLiveData的值，所以无法进行修改
+
+        /*
+         **********************************************************************************************************
+         */
         layoutBinding.back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,21 +131,63 @@ public class LiveDataActivity extends BaseActivity<ActivityDatabindMainBinding> 
         layoutBinding.click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Mlog.e("mData != null?" + (mData != null));
-//                Mlog.e("mData.getData() != null?" + (mData.getData() != null));
-//                Mlog.e("mData.getData().getValue() != null?" + (mData.getData().getValue() != null));
-//                toActivity(newIntent(IntentShareActivity.class), 2);
-                // todo 更新LiveData数据
-//                mTitle.getmTitle().setValue("默认的标题" + mRandom.nextDouble());
+                // todo 直接设置【基本类型】
+                mTitle.getmTitle().setValue("默认的标题" + mRandom.nextDouble());
+            }
+        });
+
+
+        layoutBinding.click1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // todo 设置值【对象类型】
                 if (mData != null && mData.getData() != null && mData.getData().getValue() != null) {
-                    // 1、方式一，直接针对LiveData对象中某个属性进行值的变更
-//                    mData.getData().getValue().setName("默认的标题" + mRandom.nextDouble());
-//                    mDataEntity.setName("默认的标题" + mRandom.nextDouble());
-                    //2、方式二，在针对LiveData对象中属性变更后，重新调用setValue方式
-                    mData.getData().getValue().setName("默认的标题" + mRandom.nextDouble());
-                    mData.getData().setValue(mData.getData().getValue());
-//                    mDataEntity.setName("默认的标题" + mRandom.nextDouble());
-//                    mData.getData().setValue(mDataEntity);
+                    mData.getData().getValue().setName("mData 后续设置：" + mRandom.nextDouble());
+                    Mlog.e("mData 后续设置：" + mData.getData().getValue().toString());
+                } else if (mData != null && mData.getData() != null) {
+                    mData.getData().setValue(new DataEntity("mData 第一次设置：" + mRandom.nextDouble()));
+                    Mlog.e("mData 第一次设置：" + mData.getData().getValue().toString());
+                } else {
+                    Toast.makeText(LiveDataActivity.this, "mData 对象为空", Toast.LENGTH_SHORT).show();
+                    Mlog.e("mData 对象为空");
+                }
+            }
+        });
+
+        layoutBinding.click2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // todo 设置对象【对象类型】
+//                mTitle.getmTitle().setValue("默认的标题" + mRandom.nextDouble());
+                if (mData1 != null && mData1.getData() != null && mData1.getData().getValue() != null) {
+                    mData1.getData().getValue().setName("mData1 后续设置：" + mRandom.nextDouble());
+                    mData1.getData().setValue(mData1.getData().getValue());
+                    Mlog.e("mData1 后续设置：" + mData1.getData().getValue().toString());
+                } else if (mData1 != null && mData1.getData() != null) {
+                    mData1.getData().setValue(new DataEntity("mData1 第一次设置：" + mRandom.nextDouble()));
+                    Mlog.e("mData1 第一次设置：" + mData1.getData().getValue().toString());
+                } else {
+                    Toast.makeText(LiveDataActivity.this, "mData1 对象为空", Toast.LENGTH_SHORT).show();
+                    Mlog.e("mData1 对象为空");
+                }
+            }
+        });
+
+        layoutBinding.click3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // todo 设置对象【对象类型】
+//                mTitle.getmTitle().setValue("默认的标题" + mRandom.nextDouble());
+                if (mData2 != null && mData2.getData() != null && mData2.getData().getValue() != null) {
+                    mData2.getData().getValue().setName("mData2 后续设置：" + mRandom.nextDouble());
+                    mData2.getData().setValue(mData2.getData().getValue());
+                    Mlog.e("mData2 后续设置：" + mData2.getData().getValue().toString());
+                } else if (mData2 != null && mData2.getData() != null) {
+                    mData2.getData().setValue(new DataEntity("mData2 第一次设置：" + mRandom.nextDouble()));
+                    Mlog.e("mData2 第一次设置：" + mData2.getData().toString());
+                } else {
+                    Toast.makeText(LiveDataActivity.this, "mData2 对象为空", Toast.LENGTH_SHORT).show();
+                    Mlog.e("mData2 对象为空");
                 }
             }
         });

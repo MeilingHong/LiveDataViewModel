@@ -51,8 +51,8 @@ public class SpannableStringShowMultiSizeTextActivity extends BaseActivity<Activ
                 .setKeepScreenOn(false)
                 .setNavigatorBarColor(getResources().getColor(R.color.color_white))
                 .setPortraitMode(true)
+                .setCheckSignalStrength(true)
                 .build();
-        isCheckSignalStrength = true;
     }
 
     @Override

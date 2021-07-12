@@ -42,7 +42,6 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
      * 使用构建者（Builder）模式固定实现Activity的通用参数配置
      */
     protected ActivityConfig activityConfig;
-    protected boolean isCheckSignalStrength = false;
     /*
      * todo 测试发现： 使用 layoutBinding.View.getLocationOnScreen 的方式拿不到这个View在屏幕上的位置，但
      *  使用findViewById的方式就可以
@@ -113,7 +112,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
 
     protected void applyConfiguration() {
         setActivityOrientation();
-        setFullScrennAndStatusBar();
+        setFullScreenAndStatusBar();
         setNavigatorBarColor();
         setKeepScreenOn();
         setWindowBackground();
@@ -392,7 +391,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         }
     }
 
-    private void setFullScrennAndStatusBar() {
+    private void setFullScreenAndStatusBar() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         if (activityConfig != null && activityConfig.isFullscreen() && activityConfig.isShowStatusBar()) {
             // 全屏，显示状态栏
@@ -427,7 +426,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     private TelephonyManager mTelephonyManager;
 
     private void initPhoneSignalStrength() {
-        if (isCheckSignalStrength) {
+        if (activityConfig != null && activityConfig.isCheckSignalStrength()) {
             mTelephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
             phoneSignalStrengthCallback = new PhoneSignalStrengthCallback() {
                 @Override
@@ -469,13 +468,13 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     }
 
     private void resumePhoneSignalStrength() {
-        if (isCheckSignalStrength && mTelephonyManager != null) {
+        if (activityConfig != null && activityConfig.isCheckSignalStrength() && mTelephonyManager != null) {
             mTelephonyManager.listen(phoneSignalStrengthListener, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
         }
     }
 
     private void pausePhoneSignalStrength() {
-        if (isCheckSignalStrength && mTelephonyManager != null) {
+        if (activityConfig != null && activityConfig.isCheckSignalStrength() && mTelephonyManager != null) {
             mTelephonyManager.listen(phoneSignalStrengthListener, PhoneStateListener.LISTEN_NONE);
         }
     }

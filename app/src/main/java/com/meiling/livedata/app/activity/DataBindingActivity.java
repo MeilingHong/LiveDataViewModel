@@ -14,7 +14,6 @@ import com.meiling.component.utils.log.Mlog;
 import com.meiling.component.utils.network.NetworkUtil;
 import com.meiling.component.utils.text_show.SpanTextUtil;
 import com.meiling.livedata.R;
-import com.meiling.livedata.app.activity.share.IntentShareActivity;
 import com.meiling.livedata.app.dialog.loading.LoadingDialog;
 import com.meiling.livedata.app.entity.NameEntity;
 import com.meiling.livedata.app.popup.LoadingPopupWindow;
@@ -52,8 +51,8 @@ public class DataBindingActivity extends BaseActivity<ActivityDatabindMainBindin
                 .setKeepScreenOn(false)
                 .setNavigatorBarColor(getResources().getColor(R.color.color_white))
                 .setPortraitMode(true)
+                .setCheckSignalStrength(true)
                 .build();
-        isCheckSignalStrength = true;
     }
 
     @Override

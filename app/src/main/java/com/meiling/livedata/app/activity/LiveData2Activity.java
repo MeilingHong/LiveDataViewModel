@@ -62,8 +62,8 @@ public class LiveData2Activity extends BaseActivity<ActivityDatabindMainBinding>
                 .setKeepScreenOn(false)
                 .setNavigatorBarColor(getResources().getColor(R.color.color_white))
                 .setPortraitMode(true)
+                .setCheckSignalStrength(true)
                 .build();
-        isCheckSignalStrength = true;
     }
 
     @Override

@@ -19,6 +19,7 @@ public class ActivityConfig {
     private boolean isBlockBackKey = false;// 是否屏蔽调返回键
     private boolean isDoubleBackExit = false;// 双击返回键退出
     private boolean isPortraitMode = true;// 是否竖屏显示
+    private boolean isCheckSignalStrength = false;// 是否检测信号强度
     private int navigatorBarColor = -1;//
 
     private ActivityConfig() {
@@ -83,6 +84,14 @@ public class ActivityConfig {
         isPortraitMode = portraitMode;
     }
 
+    public boolean isCheckSignalStrength() {
+        return isCheckSignalStrength;
+    }
+
+    public void setCheckSignalStrength(boolean checkSignalStrength) {
+        isCheckSignalStrength = checkSignalStrength;
+    }
+
     public int getNavigatorBarColor() {
         return navigatorBarColor;
     }
@@ -100,6 +109,7 @@ public class ActivityConfig {
         private boolean isBlockBackKey = false;// 是否屏蔽调返回键
         private boolean isDoubleBackExit = false;// 双击返回键退出
         private boolean isPortraitMode = true;// 是否竖屏显示
+        private boolean isCheckSignalStrength = false;// 是否检测信号强度
         private int navigatorBarColor = -1;//
 
         public Builder() {
@@ -141,6 +151,11 @@ public class ActivityConfig {
             return this;
         }
 
+        public Builder setCheckSignalStrength(boolean isCheckSignalStrength) {
+            this.isCheckSignalStrength = isCheckSignalStrength;
+            return this;
+        }
+
         public Builder setNavigatorBarColor(@ColorInt int navigatorBarColor) {
             this.navigatorBarColor = navigatorBarColor;
             return this;
@@ -158,6 +173,8 @@ public class ActivityConfig {
             config.setKeepScreenOn(isKeepScreenOn);
             config.setNavigatorBarColor(navigatorBarColor);
             config.setPortraitMode(isPortraitMode);
+
+            config.setCheckSignalStrength(isCheckSignalStrength);
 
             return config;
         }
