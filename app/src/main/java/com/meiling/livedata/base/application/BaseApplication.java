@@ -22,7 +22,7 @@ public class BaseApplication extends MultiDexApplication {
     }
 
     private void initLog() {
-        Mlog.setConfig(BuildConfig.LOG_DEBUG, "_AndroidRuntime");
+        Mlog.setConfig(BuildConfig.LOG_DEBUG, "_AndroidRuntime", Mlog.Log_Level.DEBUG);
     }
 
     private void initComponent() {

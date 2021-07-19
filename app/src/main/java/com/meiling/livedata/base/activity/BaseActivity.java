@@ -10,6 +10,7 @@ import android.os.Looper;
 import android.os.MessageQueue;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -21,6 +22,7 @@ import com.meiling.component.utils.network.signal_strength.PhoneSignalStrengthCa
 import com.meiling.component.utils.network.signal_strength.PhoneSignalStrengthListener;
 import com.meiling.component.utils.network.signal_strength.SignalStrengthEnum;
 import com.meiling.component.utils.statusbar.QMUIStatusBarHelper;
+import com.meiling.component.utils.toast.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import androidx.annotation.ColorInt;
@@ -140,6 +142,11 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     }
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         Mlog.d("onResume---" + getClass().getName());
@@ -167,9 +174,29 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         Mlog.d("onDestroy---" + getClass().getName());
         afterDestroy();
         clearKeepScreenOn();
+        unbindRelease();
+    }
+
+    private void unbindRelease() {
         if (layoutBinding != null) layoutBinding.unbind();// todo 当页面销毁时，对databinding对象进行解绑操作
         layoutBinding = null;
     }
+    /*
+     *********************************************************************************************************
+     * EventBus注册较为标准的方式，避免重复注册导致的异常
+     * --- 【Subscriber class already registered to event class】
+     */
+//    public void registerEventBus() {
+//        if (!EventBus.getDefault().isRegistered(this)) {// 避免相同对象重复注册
+//            EventBus.getDefault().register(this);
+//        }
+//    }
+//
+//    public void unregisterEventBus() {
+//        if (EventBus.getDefault().isRegistered(this)) {
+//            EventBus.getDefault().unregister(this);
+//        }
+//    }
 
     /*
      *********************************************************************************************************
@@ -421,6 +448,8 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     /*
      **********************************************************************************
      */
+    private NetworkTypeEnum mLastNetworkType = null;
+    private boolean isNetworkChange = false;
     private PhoneSignalStrengthListener phoneSignalStrengthListener;
     private PhoneSignalStrengthCallback phoneSignalStrengthCallback;
     private TelephonyManager mTelephonyManager;
@@ -431,35 +460,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
             phoneSignalStrengthCallback = new PhoneSignalStrengthCallback() {
                 @Override
                 public void getPhoneSignalStrength(NetworkTypeEnum networkTypeEnum, SignalStrengthEnum signalStrengthEnum) {
-                    switch (networkTypeEnum) {
-                        case NONE: {
-                            // 无网络
-                            break;
-                        }
-                        /*
-                         ******************************************************
-                         * 以下类型根据
-                         */
-                        case WIFI: {
-                            // WIFI
-                            break;
-                        }
-                        case MOBILE_2G: {
-                            break;
-                        }
-                        case MOBILE_3G: {
-                            break;
-                        }
-                        case MOBILE_4G: {
-                            break;
-                        }
-                        case MOBILE_5G: {
-                            break;
-                        }
-                        case MOBILE: {
-                            break;
-                        }
-                    }
+                    networkTypeChange(mLastNetworkType, networkTypeEnum, signalStrengthEnum);
                 }
             };
             phoneSignalStrengthListener = new PhoneSignalStrengthListener(getApplicationContext(), phoneSignalStrengthCallback);
@@ -479,10 +480,55 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         }
     }
 
-    private void networkTypeChange(NetworkTypeEnum oldType, NetworkTypeEnum newType) {
+    public void networkTypeChange(NetworkTypeEnum oldType, NetworkTypeEnum newType, SignalStrengthEnum signalStrengthEnum) {
         // 通知网络类型发生了变化
         // 从就类型切换成了新类型的网络
+        if (oldType != null && oldType != newType) {// 网络发生切换
+            isNetworkChange = true;
+        } else {
+            // 都不按网络变化处理
+            isNetworkChange = false;
+        }
+        mLastNetworkType = newType;// 赋最新值
+        switch (newType) {
+            case NONE: {
+                // 无网络
+                break;
+            }
+            /*
+             ******************************************************
+             * 以下类型根据
+             */
+            case WIFI: {
+                // WIFI
+                break;
+            }
+            case MOBILE_2G: {
+                break;
+            }
+            case MOBILE_3G: {
+                break;
+            }
+            case MOBILE_4G: {
+                break;
+            }
+            case MOBILE_5G: {
+                break;
+            }
+            case MOBILE: {
+                break;
+            }
+        }
     }
 
-
+    /*
+     **********************************************************************************
+     */
+    public void toastShortCenter(String message) {
+        ToastUtils.toastSystemStyle(getApplicationContext(), message, Gravity.CENTER, true);
+    }
+    /*
+     **********************************************************************************
+     * 等待对话框【加载】
+     */
 }

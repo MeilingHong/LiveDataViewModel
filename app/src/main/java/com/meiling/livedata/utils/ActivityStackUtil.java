@@ -12,6 +12,7 @@ import java.util.ArrayList;
  * Created by marisareimu@126.com on 2020-12-17  16:09
  * project Ubanquan
  */
+@Deprecated
 public class ActivityStackUtil {
     private ArrayList<BaseActivity> activityStack;
     private String lastActivityName = null;// 避免持有引用导致的泄漏问题
